@@ -13,7 +13,6 @@ server.use(helmet());
 server.use(cors());
 server.use(express.json());
 
-
 server.use(session({
     name: 'cessaion',
     secret: 'Never go against a Sicilian when DEATH is on the line!',
@@ -25,6 +24,7 @@ server.use(session({
     resave: false,
     saveUninitialized: false, //set to false, will later be dynamically changed. GDPR laws
 }));
+
 
 server.use('/api/auth', authRouter);
 server.use('/api/jokes', authenticate, jokesRouter);

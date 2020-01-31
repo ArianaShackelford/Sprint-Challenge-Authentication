@@ -1,5 +1,5 @@
-const db = require('../database/dbConfig.js');
-const jokes = require('./jokes-router.js');
+// const db = require('../database/dbConfig.js');
+const jokes = require('../api/server.js');
 const request = require('supertest');
 
 
@@ -8,12 +8,23 @@ describe('jokes', () => {
         expect(true).toBe(true);
     })
 
-    describe('Get /jokes', () => {
-        it('return status 200', () => {
-            return request(jokes).get('/api/jokes')
-                .then(res => {
-                    expect(res.status).toBe(200)
-                })
+    describe('GET /jokes', () => {
+        it('return status 200', async () => {
+            const res = await request(jokes)
+                .get('/api/auth/login')
+                .send({
+                    username: 'alec',
+                    password: 'oren'
+                });
+            const users = await request(jokes)
+                .get('/api/jokes')
+                .set('token',[res.body.token])
+                expect(users.token)
+        })
+
+        it('should return JSON', async () => {
+            const res = await request(jokes).get('/api/jokes')
+            expect(res.type).toMatch(/json/i);
         })
     } )
 })
